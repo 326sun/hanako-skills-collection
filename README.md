@@ -119,14 +119,6 @@ git pull
 .\install.ps1
 ```
 
-## GitHub 仓库描述
-
-在仓库首页顶部的 "Description" 建议设为：
-
-> HanaAgent (OpenHanako) 精选 skills 集合：学术写作、期刊配图、深度推理、自我进化。下载即用。
-
-设置路径：仓库首页 → 右上角齿轮 ⚙️ → 找到 Description 字段 → 填入 → Save。
-
 ## 许可
 
 MIT
