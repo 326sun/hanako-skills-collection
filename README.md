@@ -1,95 +1,116 @@
 # Hanako Skills Collection
 
-> 为 HanaAgent (OpenHanako) 精选的 skills 集合 + 自我进化系统。
-> 直接下载到 `%USERPROFILE%\.hanako\skills\` 即可使用。
+**给你的 HanaAgent 装上脑子。** 一套经过实战验证的 skills 集合，覆盖学术写作、数据处理、文档操作、深度推理，外加一个让 AI 越用越聪明的自我进化系统。
 
 ---
 
-## 包含内容
+## 这是什么
 
-### Skills（20个）
+[HanaAgent](https://github.com/liliMozi/openhanako)（OpenHanako）是运行在你电脑上的个人 AI 助手。Skills 是它的能力插件——每个 skill 教它在特定场景下怎么做、做到什么标准。
 
-| 类别 | Skill | 用途 |
-|------|-------|------|
-| 📝 学术 | `academic-suite` | 三合一审稿工具（导师/审稿人/写作助手） |
-| 📝 学术 | `scientific-writing` | 英文学术写作规范 |
-| 📝 学术 | `thesis-docx` | 学位论文 Word 排版 |
-| 📝 学术 | `literature-review` | 系统文献检索与综述 |
-| 📝 学术 | `journal-figures` | 期刊配图设计指南（Nature 风格） |
-| 📊 数据 | `data-analysis` | pandas/numpy/scipy 数据处理 |
-| 📊 数据 | `data-visualization` | matplotlib/seaborn 科学可视化 |
-| 📄 文档 | `office-documents` | Word/Excel/PPT/PDF 通用操作 |
-| 🧠 推理 | `adaptive-reasoning` | 自动评估任务复杂度并调整回答深度 |
-| 🧠 推理 | `quiet-musing` | 深度推理框架（复杂问题专用） |
-| 🔧 开发 | `skill-creator` | 创建和修改 skills |
-| 🔧 开发 | `mcp-builder` | MCP 服务器构建指南 |
-| 🔧 开发 | `hana-plugin-creator` | Hana 插件创建 |
-| 📐 图表 | `mermaid-diagrams` | Mermaid 图表生成 |
-| 🔍 工具 | `article-extractor` | 从 URL 提取干净文章 |
-| 🔍 工具 | `self-improving-agent` | 错误记录与经验积累 |
-| 🎨 创作 | `algorithmic-art` | p5.js 算法艺术 |
-| 🎨 创作 | `canvas-design` | Canvas 设计 |
-| 📖 帮助 | `user-guide` | HanaAgent 使用说明书 |
+HanaAgent 装好之后自带的 skills 很少。这个仓库把日常高频场景（写论文、审稿、画图、处理文档、深度推理）需要的 skills 打包好，下载即用。同时附赠一套自我进化系统，让 HanaAgent 在长期使用中自动发现自己的问题、生成改进方案。
+
+## 适合谁
+
+- **学术研究者**：写论文、画期刊配图、模拟同行评审、文献检索
+- **工程师/开发者**：数据处理、科学可视化、MCP 服务器开发、Hana 插件开发
+- **HanaAgent 新用户**：不知道装什么 skills？从这里开始
+
+## 快速开始
+
+```powershell
+git clone https://github.com/326sun/hanako-skills-collection.git
+cd hanako-skills-collection
+.\install.ps1
+```
+
+重启 HanaAgent 即可生效。只想装某几个 skill？手动复制对应的文件夹到 `%USERPROFILE%\.hanako\skills\` 就行。
+
+## 包含什么
+
+### 学术套件（6 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `academic-suite` | 三合一审稿：导师反馈 + 同行评审 + 格式检查，投稿前自检 |
+| `scientific-writing` | 英文学术写作规范，从时态到 hedging 全覆盖 |
+| `thesis-docx` | 学位论文 Word 排版，样式规范化一键处理 |
+| `literature-review` | 系统文献检索与综述，带可复现的检索策略 |
+| `journal-figures` | Nature 风格的期刊配图设计指南（机制图、图形摘要、TOC 图） |
+| `data-visualization` | matplotlib/seaborn 出版级科学图表，600 dpi SVG 输出 |
+
+### 数据处理（1 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `data-analysis` | pandas/numpy/scipy 仿真数据处理 |
+
+### 文档处理（1 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `office-documents` | Word/Excel/PPT/PDF 读写一条龙 |
+
+### 推理增强（2 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `adaptive-reasoning` | 自动判断问题复杂度，简单问题不废话，复杂问题深思考 |
+| `quiet-musing` | 五阶段深度推理框架：理解→拆解→多路径→执行→验证 |
+
+### 开发工具（3 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `skill-creator` | 创建和修改 skills，带评测和自动迭代 |
+| `mcp-builder` | MCP 服务器构建指南，Python 和 Node.js 双栈 |
+| `hana-plugin-creator` | Hana 插件脚手架和 SDK 模板 |
+
+### 图表与创作（3 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `mermaid-diagrams` | 流程图、时序图、架构图，自然语言→SVG/PNG |
+| `algorithmic-art` | p5.js 算法艺术生成 |
+| `canvas-design` | Canvas 设计，内置 30+ 开源字体 |
+
+### 效率工具（2 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `article-extractor` | 从网页 URL 提取干净正文，去广告去导航 |
+| `self-improving-agent` | 错误记录与经验积累，跨 session 持续改进 |
+
+### 帮助（1 个）
+
+| Skill | 一句话说明 |
+|-------|-----------|
+| `user-guide` | HanaAgent 使用说明书，功能查询和排障 |
 
 ### 自我进化系统
 
-`self-evolution/` 目录包含一个完整的自我进化管道（Phase 1），让 Hanako 能够：
+`self-evolution/` 目录包含一个完整的 Phase 1 进化管道：
 
-- 记录每次复杂任务的经验和错误
-- 自动扫描日志、发现重复模式
-- 计算 pattern_score 判断是否值得 skill 化
-- 生成周报和高分候选报告
+```
+任务执行 → 记录经验 → 扫描模式 → 计算 pattern_score → 生成周报 → 高分候选 → 人工审核
+```
+
+具体做什么：
+- 每次复杂任务后自动记录 experience_log 和 error_log
+- 每周自动扫描日志，按错误类型聚类，计算每个 pattern 的 skill 化价值
+- 对高分 pattern 自动生成 skill 候选草案
+- **不自动安装任何 skill**，所有改动必须人工审核
 
 详见 [`self-evolution/README.md`](self-evolution/README.md)。
 
 ---
 
-## 一键安装
+## 设计原则
 
-### Windows (PowerShell)
-
-```powershell
-# 克隆仓库
-git clone https://github.com/YOUR_USERNAME/hanako-skills-collection.git
-cd hanako-skills-collection
-
-# 安装 skills 到 HanaAgent
-.\install.ps1
-```
-
-`install.ps1` 会将所有 skills 复制到 `%USERPROFILE%\.hanako\skills\`，自我进化系统复制到当前工作目录。
-
-### 手动安装
-
-```powershell
-# 复制 skills
-Copy-Item -Recurse -Force .\skills\* $env:USERPROFILE\.hanako\skills\
-
-# 复制自我进化系统到你想要的工作区
-Copy-Item -Recurse -Force .\self-evolution\ D:\YourWorkspace\Hanako_Self_Evolution\
-```
-
-### 选择性安装
-
-如果你只需要部分 skills，手动复制对应目录即可。例如：
-
-```powershell
-Copy-Item -Recurse -Force .\skills\academic-suite\ $env:USERPROFILE\.hanako\skills\
-Copy-Item -Recurse -Force .\skills\journal-figures\ $env:USERPROFILE\.hanako\skills\
-```
-
----
-
-## Skills 设计原则
-
-这个集合遵循以下原则：
-
-1. **不重复**：skills 之间触发条件明确隔离，避免多个 skill 同时响应同一请求
-2. **低耦合**：每个 skill 可独立安装和使用
-3. **高质量**：经过实际使用验证，无冗余模板
-4. **学术优先**：面向学术写作、数据处理、论文投稿场景优化
-
----
+1. **不重复**：skill 之间触发条件明确隔离，19 个 skill 无功能重叠
+2. **低耦合**：每个 skill 可独立安装、独立移除
+3. **实战验证**：全部在日常学术和开发工作中实际使用过
+4. **不自动安装**：安装脚本跳过已有 skill，不覆盖不删除
 
 ## 更新
 
@@ -98,12 +119,14 @@ git pull
 .\install.ps1
 ```
 
----
+## GitHub 仓库描述
+
+在仓库首页顶部的 "Description" 建议设为：
+
+> HanaAgent (OpenHanako) 精选 skills 集合：学术写作、期刊配图、深度推理、自我进化。下载即用。
+
+设置路径：仓库首页 → 右上角齿轮 ⚙️ → 找到 Description 字段 → 填入 → Save。
 
 ## 许可
 
-MIT — 自由使用、修改、分发。
-
-## 贡献
-
-欢迎提 Issue 和 PR。如果你有好的 skill 想加入这个集合，请确保它满足上述设计原则。
+MIT
