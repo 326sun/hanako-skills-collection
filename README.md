@@ -1,11 +1,11 @@
 # Hanako Skills Collection
 
-为 [Hanako](https://github.com/liliMozi/openhanako) 精选的 19 个 skills，覆盖学术写作、数据处理、
-文档操作、深度推理，外加一套自我进化管道。全部经过日常学术和开发实战验证。
+为 [Hanako](https://github.com/liliMozi/openhanako) 精选的 32 个 skills，覆盖学术写作、数据处理、
+文档操作、深度推理、开发工具与安全，外加一套自我进化管道。
 
 ```
 hanako-skills-collection
-├── skills/              ← 19 个即装即用 skills
+├── skills/              ← 32 个即装即用 skills
 ├── self-evolution/      ← Phase 1 进化管道（日志→模式→候选→审核）
 └── install.ps1          ← 一键安装
 ```
@@ -91,6 +91,29 @@ cd hanako-skills-collection
 | `skill-creator` | 创建和修改 skills，带评测和自动迭代 |
 | `mcp-builder` | MCP 服务器构建，Python + Node.js 双栈 |
 | `hana-plugin-creator` | Hana 插件脚手架和 SDK 模板 |
+| `code-reviewer` | 代码审查：安全漏洞、性能、架构、最佳实践 |
+| `git-workflow` | 规范化 commit message、分支命名、PR 描述 |
+| `test-generator` | 自动生成单元测试、边界测试、集成测试 |
+| `api-designer` | RESTful API 设计，OpenAPI 规范，错误码体系 |
+| `docker-deploy` | Dockerfile 最佳实践、Compose 编排、安全加固 |
+| `database-design` | SQL 查询优化、表结构设计、索引策略、迁移管理 |
+| `shell-scripting` | Shell/PowerShell 脚本规范，跨平台兼容，幂等性 |
+| `regex-builder` | 正则表达式构造、解释和测试用例生成 |
+| `security-audit` | 依赖漏洞、硬编码密钥、OWASP Top 10、配置加固 |
+
+### 写作与翻译
+
+| Skill | 做什么 |
+|-------|--------|
+| `translator` | 中英互译，学术级术语一致性和语域匹配 |
+| `tech-doc-writer` | API 文档、README、Changelog、ADR 架构决策记录 |
+
+### 办公效率
+
+| Skill | 做什么 |
+|-------|--------|
+| `presentation-builder` | 从主题生成演示文稿大纲、幻灯片内容和演讲备注 |
+| `browser-automation` | 浏览器工具使用指南：填表、截图、数据提取、反检测 |
 
 ### 图表与创作
 
@@ -136,7 +159,7 @@ Phase 1（本仓库）                       Phase 2（runtime-learner 插件）
 
 ## 设计原则
 
-- **不重复** — 19 个 skill 触发条件明确隔离，无功能重叠
+- **不重复** — 32 个 skill 触发条件明确隔离，无功能重叠
 - **低耦合** — 每个 skill 独立安装、独立移除
 - **实战验证** — 全部在学术写作和日常开发中实际使用过
 - **不自动安装** — 安装脚本跳过已有 skill，不覆盖不删除
