@@ -1,50 +1,38 @@
-# Hanako Skills Collection
+<p align="center">
+  <strong>Hanako Skills Collection</strong><br>
+  <sub>装完即用，不再到处找</sub>
+</p>
 
-Hanako 生态中持续增长的开源 skills 集合——32 个即装即用的能力模块，
-覆盖学术写作、数据处理、开发运维、安全审计、办公效率与深度推理。
-每个 skill 都经过实战验证，让 Hanako 从通用助手进化为你的领域专家。
+<p align="center">
+  <img src="https://img.shields.io/badge/skills-36-blue" alt="skills">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
+  <img src="https://img.shields.io/badge/pr-welcome-brightgreen" alt="pr">
+</p>
 
-配合 `hanako-runtime-learner` 插件可实现跨会话的自我进化：
-Agent 在使用中自动发现模式、学习偏好、修正错误。
+---
 
-```
-hanako-skills-collection
-├── skills/              ← 32 个即装即用 skills
-├── self-evolution/      ← Phase 1 进化管道（日志→模式→候选→审核）
-└── install.ps1          ← 一键安装
-```
+## 这是什么
 
-## 与 Hanako 生态的关系
+Hanako 生态中持续增长的开源 skills 集合。每个 skill 是一份文本指令，告诉 Agent 在特定场景下怎么思考、怎么操作、怎么输出。
 
-```
-┌─────────────────────────────────────────────┐
-│ Hanako 核心（Pi 框架）                        │
-│ 工具调用 · 会话管理 · 插件系统 · EventBus       │
-├─────────────────────────────────────────────┤
-│                                             │
-│  hanako-skills-collection  ← 这个仓库        │
-│  ┌─────────────┐  ┌──────────────────────┐  │
-│  │ 19 个 skills │  │ self-evolution 管道   │  │
-│  │ 文本指令      │  │ 日志→模式→候选→审核   │  │
-│  └─────────────┘  └──────────────────────┘  │
-│                                             │
-│  hanako-ui-beautify       ← 插件             │
-│  ┌─────────────────────┐                    │
-│  │ 鸿蒙黑体 + 动效补丁   │                    │
-│  │ 可执行代码（full-access）│                 │
-│  └─────────────────────┘                    │
-│                                             │
-│  hanako-runtime-learner   ← 插件             │
-│  ┌─────────────────────┐                    │
-│  │ Phase 2 运行时学习    │                    │
-│  │ 观察→检测→注入→审核   │                    │
-│  └─────────────────────┘                    │
-└─────────────────────────────────────────────┘
-```
+**目标：装完这个仓库，日常场景不再需要去别处找 skills。**
 
-Skills 是文本指令，教 Hanako 在特定场景下怎么做；插件是可执行代码，
-扩展 Hanako 的运行时能力。两者互补：skills 定义行为标准，
-runtime-learner 让 skills 在使用中被动态优化。
+覆盖七个领域——学术写作、数据处理、开发运维、代码审查、图表创作、办公效率、深度推理。每个 skill 都经过实战验证，独立安装，独立移除。
+
+---
+
+## 目录
+
+- [快速开始](#快速开始)
+- [Skills 目录](#skills-目录)
+- [按场景查找](#按场景查找)
+- [生态系统](#生态系统)
+- [自我进化](#自我进化)
+- [设计原则](#设计原则)
+- [参与贡献](#参与贡献)
+- [相关项目](#相关项目)
+
+---
 
 ## 快速开始
 
@@ -54,119 +42,190 @@ cd hanako-skills-collection
 .\install.ps1
 ```
 
-重启 Hanako 生效。只想装某几个？手动复制对应文件夹到 `~\.hanako\skills\`。
+重启 Hanako 生效。已安装的 skill 会自动跳过，不会覆盖。
+
+只想装某几个？手动复制：
+
+```powershell
+Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
+```
+
+---
 
 ## Skills 目录
 
 ### 学术写作
 
-| Skill | 做什么 |
-|-------|--------|
-| `academic-suite` | 三合一审稿：导师反馈 + 同行评审 + 格式检查 |
-| `scientific-writing` | 英文学术写作规范，时态、hedging、术语一致性 |
-| `thesis-docx` | 学位论文 Word 排版，样式规范化 |
-| `literature-review` | 系统文献检索与综述，可复现检索策略 |
-| `journal-figures` | Nature 风格配图设计（机制图、图形摘要、TOC 图） |
-| `data-visualization` | matplotlib/seaborn 出版级图表，600 dpi SVG |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `academic-suite` | 三合一审稿：导师反馈 + 同行评审 + 格式检查 | 论文反馈、学位论文审查、投稿前检查 |
+| `scientific-writing` | 英文学术写作规范 | 时态选择、hedging、术语一致性 |
+| `thesis-docx` | 学位论文 Word 排版 | 样式规范化、标题编号、页眉页脚 |
+| `literature-review` | 系统文献检索 | 可复现检索策略、PRISMA 流程图 |
+| `journal-figures` | Nature 风格配图 | 图形摘要、机制图、TOC 图 |
+| `data-visualization` | matplotlib/seaborn 出版级图表 | 600 dpi、SVG 输出、配色方案 |
 
-### 数据处理
+### 数据处理与文档
 
-| Skill | 做什么 |
-|-------|--------|
-| `data-analysis` | pandas/numpy/scipy 仿真数据处理 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `data-analysis` | pandas/numpy/scipy 仿真数据处理 | 实验数据清洗、统计分析 |
+| `office-documents` | Word / Excel / PPT / PDF 读写 | 打开、解析、修改、格式转换 |
 
-### 文档操作
+### 深度推理
 
-| Skill | 做什么 |
-|-------|--------|
-| `office-documents` | Word/Excel/PPT/PDF 读写 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `adaptive-reasoning` | 自动判断任务复杂度 | 简单不废话，复杂深思考 |
+| `quiet-musing` | 五阶段深度推理框架 | 多步骤问题、架构设计、权衡决策 |
 
-### 推理增强
+### 代码审查与安全
 
-| Skill | 做什么 |
-|-------|--------|
-| `adaptive-reasoning` | 自动判断复杂度，简单不废话，复杂深思考 |
-| `quiet-musing` | 五阶段深度推理：理解 → 拆解 → 多路径 → 执行 → 验证 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `code-reviewer` | 四级严重度系统审查 | 安全、正确性、性能、可维护性 |
+| `security-audit` | 安全审计清单 | 依赖漏洞、OWASP Top 10、配置加固 |
+| `test-generator` | 自动生成测试用例 | 单元测试、边界测试、集成测试 |
 
-### 开发与工具
+### 开发工具
 
-| Skill | 做什么 |
-|-------|--------|
-| `skill-creator` | 创建和修改 skills，带评测和自动迭代 |
-| `mcp-builder` | MCP 服务器构建，Python + Node.js 双栈 |
-| `hana-plugin-creator` | Hana 插件脚手架和 SDK 模板 |
-| `code-reviewer` | 代码审查：安全漏洞、性能、架构、最佳实践 |
-| `git-workflow` | 规范化 commit message、分支命名、PR 描述 |
-| `test-generator` | 自动生成单元测试、边界测试、集成测试 |
-| `api-designer` | RESTful API 设计，OpenAPI 规范，错误码体系 |
-| `docker-deploy` | Dockerfile 最佳实践、Compose 编排、安全加固 |
-| `database-design` | SQL 查询优化、表结构设计、索引策略、迁移管理 |
-| `shell-scripting` | Shell/PowerShell 脚本规范，跨平台兼容，幂等性 |
-| `regex-builder` | 正则表达式构造、解释和测试用例生成 |
-| `security-audit` | 依赖漏洞、硬编码密钥、OWASP Top 10、配置加固 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `api-designer` | RESTful API 设计 | OpenAPI 规范、错误码体系、版本策略 |
+| `database-design` | SQL 优化与表设计 | 索引策略、查询优化、迁移管理 |
+| `docker-deploy` | Dockerfile 最佳实践 | 镜像瘦身、多阶段构建、安全加固 |
+| `git-workflow` | 规范化 git 操作 | Commit message、分支命名、PR 描述 |
+| `shell-scripting` | Shell/PowerShell 脚本 | 跨平台兼容、幂等性、错误处理 |
+| `regex-builder` | 正则表达式构造与解释 | 模式匹配、测试用例生成 |
+| `mcp-builder` | MCP 服务器构建 | Python FastMCP + Node.js SDK |
+| `hana-plugin-creator` | Hana 插件脚手架 | SDK 模板、manifest 配置 |
+| `config-generator` | 配置文件模板生成 | .env、docker-compose、CI/CD、tsconfig |
+| `package-management` | 跨语言包管理器速查 | npm、pip、cargo、go mod、apt、brew |
+| `project-init` | 项目初始化和脚手架 | 目录结构、README、许可证、CHANGELOG |
+| `dev-environment` | 开发环境配置 | Node、Python、C/C++、环境变量排障 |
+| `data-format` | 数据格式转换 | JSON/YAML/TOML/CSV/XML 互转与校验 |
 
 ### 写作与翻译
 
-| Skill | 做什么 |
-|-------|--------|
-| `translator` | 中英互译，学术级术语一致性和语域匹配 |
-| `tech-doc-writer` | API 文档、README、Changelog、ADR 架构决策记录 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `translator` | 中英互译 | 学术术语一致性、语域匹配 |
+| `tech-doc-writer` | 技术文档写作 | API 文档、README、ADR、Changelog |
+
+### 图表与设计
+
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `mermaid-diagrams` | 自然语言 → 流程图 / SVG | 架构图、时序图、ER 图 |
+| `algorithmic-art` | p5.js 算法艺术 | 流场、粒子系统、生成艺术 |
+| `canvas-design` | Canvas 设计 | 海报、封面、30+ 开源字体 |
 
 ### 办公效率
 
-| Skill | 做什么 |
-|-------|--------|
-| `presentation-builder` | 从主题生成演示文稿大纲、幻灯片内容和演讲备注 |
-| `browser-automation` | 浏览器工具使用指南：填表、截图、数据提取、反检测 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `presentation-builder` | 演示文稿生成 | 大纲、幻灯片内容、演讲备注 |
+| `browser-automation` | 浏览器自动化指南 | 填表、截图、数据提取 |
+| `article-extractor` | URL → 干净正文 | 去广告、去导航栏 |
 
-### 图表与创作
+### 技能开发
 
-| Skill | 做什么 |
-|-------|--------|
-| `mermaid-diagrams` | 自然语言 → 流程图/时序图/架构图 SVG/PNG |
-| `algorithmic-art` | p5.js 算法艺术生成 |
-| `canvas-design` | Canvas 设计，30+ 开源字体 |
+| Skill | 一句话 | 触发场景 |
+|---|---|---|
+| `skill-creator` | 创建和迭代 skills | 评估、基准测试、自动优化 |
+| `user-guide` | Hanako 使用说明书 | 功能查询、排障、技巧 |
 
-### 效率
+---
 
-| Skill | 做什么 |
-|-------|--------|
-| `article-extractor` | URL → 干净正文，去广告去导航 |
-| `self-improving-agent` | 错误记录与经验积累，跨 session 改进 |
+## 按场景查找
 
-### 帮助
+**我要写论文**
+→ `academic-suite` `scientific-writing` `thesis-docx` `literature-review` `journal-figures` `data-visualization`
 
-| Skill | 做什么 |
-|-------|--------|
-| `user-guide` | Hanako 使用说明书，功能查询和排障 |
+**我要做数据分析**
+→ `data-analysis` `data-visualization` `office-documents`
 
-## 自我进化系统
+**我要写代码**
+→ `code-reviewer` `test-generator` `api-designer` `database-design` `git-workflow` `shell-scripting` `regex-builder` `project-init`
 
-`self-evolution/` 是一个 Phase 1 离线进化管道，与 `hanako-runtime-learner` 插件配合使用：
+**我要部署上线**
+→ `docker-deploy` `security-audit` `mcp-builder` `config-generator` `dev-environment`
+
+**我要做设计/图表**
+→ `mermaid-diagrams` `algorithmic-art` `canvas-design` `journal-figures`
+
+**我要写文档**
+→ `tech-doc-writer` `translator` `presentation-builder`
+
+**我要开发 Hanako 插件或 Skills**
+→ `hana-plugin-creator` `skill-creator` `mcp-builder`
+
+**我需要深度思考**
+→ `adaptive-reasoning` `quiet-musing`
+
+**我要管理系统环境**
+→ `dev-environment` `package-management` `data-format` `config-generator`
+
+---
+
+## 生态系统
 
 ```
-Phase 1（本仓库）                       Phase 2（runtime-learner 插件）
-─────────────────                       ─────────────────────────────
-任务执行 → 记录日志                          EventBus → 实时模式检测
-      ↓                                         ↓
-扫描模式 · 聚类 · 评分                      衰减分数 · 自动注入 SKILL.md
-      ↓                                         ↓
-周报 + skill 候选草案                       人工审核 · 批准/拒绝/回滚
-      ↓
-人工审核 → 手动安装
+┌──────────────────────────────────────────────────┐
+│ Hanako Agent（Pi 框架）                            │
+├──────────────────────────────────────────────────┤
+│                                                  │
+│  hanako-skills-collection  ← 这个仓库             │
+│  ┌────────────────────┐                          │
+│  │ 36 个 skills        │  文本指令                │
+│  │ 教 Agent 怎么做事    │  独立安装 独立移除         │
+│  └────────────────────┘                          │
+│                                                  │
+│  hanako-runtime-learner  ← 插件（运行时）          │
+│  ┌────────────────────┐                          │
+│  │ 观察交互 · 发现模式  │  可执行代码               │
+│  │ 自动注入 · 持续进化  │  让 skills 越用越好       │
+│  └────────────────────┘                          │
+│                                                  │
+│  hanako-ui-beautify  ← 插件（视觉）               │
+│  ┌────────────────────┐                          │
+│  │ 鸿蒙黑体 · 动效补丁  │  可执行代码               │
+│  │ Spring Animation   │  asar 注入               │
+│  └────────────────────┘                          │
+└──────────────────────────────────────────────────┘
 ```
 
-**安全原则**：进化系统不会自动安装任何 skill。所有改动（无论是 Phase 1 的候选草案
-还是 Phase 2 的注入提示）都必须经过人工审核。
+三者的分工：**skills 定义行为标准，runtime-learner 让 skills 在使用中动态优化，ui-beautify 改善视觉体验。**
+
+---
+
+## 自我进化
+
+`self-evolution/` 是一个 Phase 1 离线进化管道。它在本地运行，扫描 task 日志，从重复模式中提取 skill 候选草案。
+
+```
+任务执行 → 记录日志 → 模式扫描 → 评分聚类 → 周报 + skill 候选草案
+                                                      ↓
+                                                 人工审核后安装
+```
+
+这与 `hanako-runtime-learner` 插件（Phase 2 实时进化）互补。Phase 1 做离线深度分析，Phase 2 做在线实时学习。
+
+**安全声明**：进化管道不会自动安装任何 skill。所有候选必须经过人工审核。
 
 详见 [`self-evolution/README.md`](self-evolution/README.md)。
 
+---
+
 ## 设计原则
 
-- **不重复** — 32 个 skill 触发条件明确隔离，无功能重叠
-- **低耦合** — 每个 skill 独立安装、独立移除
-- **实战验证** — 全部在学术写作和日常开发中实际使用过
-- **不自动安装** — 安装脚本跳过已有 skill，不覆盖不删除
+- **触发条件明确** 每个 skill 的 `description` 都包含 `MANDATORY TRIGGERS`，确保在正确场景激活
+- **不重复** 36 个 skill 的触发条件经过审查，避免功能重叠导致的激活冲突
+- **低耦合** 每个 skill 是独立目录，一个 SKILL.md 就是全部。复制即安装，删除即卸载
+- **实战验证** 全部在学术写作和日常开发中使用过，不是理论设计
+- **可组合** 复杂任务可以同时触发多个 skill，比如写论文时 `academic-suite` + `scientific-writing` + `journal-figures` 协同工作
+
+---
 
 ## 更新
 
@@ -175,27 +234,36 @@ git pull
 .\install.ps1
 ```
 
+---
+
 ## 参与贡献
 
-欢迎提交新的 skill 或改进已有 skill。
+欢迎提交新 skill 或改进已有 skill。贡献前请确认：
 
-1. Fork 本仓库
-2. 使用 `skill-creator` skill 辅助创建新 skill
-3. 放入 `skills/` 对应分类目录
-4. 确保 `SKILL.md` 包含清晰的触发条件（MANDATORY TRIGGERS）
-5. 提交 Pull Request
+- [ ] 触发条件不与已有 skill 冲突
+- [ ] 指令具体可执行，非泛泛建议
+- [ ] 如涉及外部工具，声明依赖和兼容性
+- [ ] 使用 `skill-creator` 辅助创建，确保格式规范
 
-新 skill 审核标准：
-- 触发条件明确，不与其他 skill 冲突
-- 指令具体可执行，非泛泛建议
-- 如涉及外部工具，声明依赖和兼容性
+新 skill 应放入 `skills/` 下对应的分类目录（如无合适分类可新建）。
+
+```powershell
+# 1. Fork 本仓库
+# 2. 使用 skill-creator 创建新 skill
+# 3. 放入 skills/ 对应目录
+# 4. 提交 Pull Request
+```
+
+---
 
 ## 相关项目
 
-- [hanako-ui-beautify](https://github.com/326sun/hanako-ui-beautify) — 鸿蒙黑体 + 动效美化插件
-- [hanako-runtime-learner](https://github.com/326sun/hanako-runtime-learner) — Phase 2 运行时自学习插件
+- [hanako-runtime-learner](https://github.com/326sun/hanako-runtime-learner) — 运行时自学习插件，让 skills 越用越精准
+- [hanako-ui-beautify](https://github.com/326sun/hanako-ui-beautify) — 鸿蒙黑体 + Spring Animation 美化插件
 - [Hanako](https://github.com/liliMozi/openhanako) — 上游项目
 
-## 许可
+---
+
+## License
 
 MIT
