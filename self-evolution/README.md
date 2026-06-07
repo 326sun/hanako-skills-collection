@@ -2,6 +2,8 @@
 
 > 让 Hanako 把重复错误、重复流程和用户长期偏好，转化为可验证、可审核、可回滚的工作规则。
 
+> Legacy note: this folder is the Phase 1 manual/script-based prototype. The active implementation is now the `hanako-runtime-learner` plugin, which observes runtime events, bridges official Hanako memory read-only, generates proposals, and applies only low-risk skill updates automatically. Keep this folder for historical reports and migration reference; avoid running it as a parallel self-learning system unless the plugin is unavailable.
+
 ## 当前阶段：Phase 1（仅检测与报告）
 
 **不自动安装 skill，不自动修改已有 skill。**
