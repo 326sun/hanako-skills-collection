@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/skills-36-blue" alt="skills">
+  <img src="https://img.shields.io/badge/skills-37-blue" alt="skills">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
   <img src="https://img.shields.io/badge/pr-welcome-brightgreen" alt="pr">
 </p>
@@ -119,6 +119,7 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 | `mermaid-diagrams` | 自然语言 → 流程图 / SVG | 架构图、时序图、ER 图 |
 | `algorithmic-art` | p5.js 算法艺术 | 流场、粒子系统、生成艺术 |
 | `canvas-design` | Canvas 设计 | 海报、封面、30+ 开源字体 |
+| `apple-minimal-ui` | Apple 极简风格前端规范 | 网页/组件/仪表板，禁用论文配图 |
 
 ### 办公效率
 
@@ -154,6 +155,9 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 **我要做设计/图表**
 → `mermaid-diagrams` `algorithmic-art` `canvas-design` `journal-figures`
 
+**我要写前端界面**
+→ `apple-minimal-ui`
+
 **我要写文档**
 → `tech-doc-writer` `translator` `presentation-builder`
 
@@ -177,7 +181,7 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 │                                                  │
 │  hanako-skills-collection  ← 这个仓库             │
 │  ┌────────────────────┐                          │
-│  │ 36 个 skills        │  文本指令                │
+│  │ 37 个 skills        │  文本指令                │
 │  │ 教 Agent 怎么做事    │  独立安装 独立移除         │
 │  └────────────────────┘                          │
 │                                                  │
@@ -220,7 +224,7 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 ## 设计原则
 
 - **触发条件明确** 每个 skill 的 `description` 都包含 `MANDATORY TRIGGERS`，确保在正确场景激活
-- **不重复** 36 个 skill 的触发条件经过审查，避免功能重叠导致的激活冲突
+- **不重复** 37 个 skill 的触发条件经过审查，避免功能重叠导致的激活冲突
 - **低耦合** 每个 skill 是独立目录，一个 SKILL.md 就是全部。复制即安装，删除即卸载
 - **实战验证** 全部在学术写作和日常开发中使用过，不是理论设计
 - **可组合** 复杂任务可以同时触发多个 skill，比如写论文时 `academic-suite` + `scientific-writing` + `journal-figures` 协同工作
