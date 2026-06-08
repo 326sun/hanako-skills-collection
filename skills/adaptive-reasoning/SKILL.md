@@ -12,20 +12,20 @@ Automatically calibrate reasoning depth to task complexity. Eliminates the need 
 
 Before responding, evaluate the task against these criteria:
 
-### Simple â†?Concise response
+### Simple â†’ Concise response
 - Factual lookup (dates, definitions, API names)
 - Single-step operations (read a file, run a command)
 - Well-understood domain, no ambiguity
 - User signals urgency or impatience
 - **Response style:** Direct answer, minimal preamble, no exploration of alternatives unless asked
 
-### Medium â†?Structured response
+### Medium â†’ Structured response
 - Multi-step but bounded task (3-7 steps)
 - Some ambiguity but precedented patterns exist
 - Moderate stakes, reversible decisions
 - **Response style:** Brief reasoning visible, 1-2 alternatives noted if relevant, clear next steps
 
-### Complex â†?Deep reasoning (invoke quiet-musing)
+### Complex â†’ Deep reasoning (invoke quiet-musing)
 - Open-ended design/architecture decisions
 - Multi-stakeholder trade-offs
 - High uncertainty or novel problem space
@@ -53,4 +53,4 @@ Watch for these signals to adjust depth:
 ## Anti-Patterns
 - Do NOT deep-dive on trivia. "What time is it?" needs 5 words, not 500.
 - Do NOT shallow-answer on research questions. "Analyze this simulation data" needs rigor.
-- Do NOT ask "should I think deeply about this?" â€?just assess and act.
+- Do NOT ask "should I think deeply about this?" â€” just assess and act.
