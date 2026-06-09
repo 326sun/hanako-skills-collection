@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/skills-37-blue" alt="skills">
+  <img src="https://img.shields.io/badge/skills-39-blue" alt="skills">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
   <img src="https://img.shields.io/badge/pr-welcome-brightgreen" alt="pr">
 </p>
@@ -104,6 +104,8 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 | `project-init` | 项目初始化和脚手架 | 目录结构、README、许可证、CHANGELOG |
 | `dev-environment` | 开发环境配置 | Node、Python、C/C++、环境变量排障 |
 | `data-format` | 数据格式转换 | JSON/YAML/TOML/CSV/XML 互转与校验 |
+| `subagent-driven-development` | 子 Agent 驱动开发：按计划派发 + 两阶段审查 | 实现计划执行、任务分发、独立审查管道 |
+| `systematic-debugging` | 四阶段系统调试法：根因 → 模式 → 假设 → 修复 | 任何 bug、测试失败、异常行为，禁止跳过根因 |
 
 ### 写作与翻译
 
@@ -149,6 +151,12 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 **我要写代码**
 → `code-reviewer` `test-generator` `api-designer` `database-design` `git-workflow` `shell-scripting` `regex-builder` `project-init`
 
+**我要按计划执行复杂开发任务**
+→ `subagent-driven-development` `quiet-musing` `code-reviewer`
+
+**我要调试 bug / 排障**
+→ `systematic-debugging` `quiet-musing` `test-generator`
+
 **我要部署上线**
 → `docker-deploy` `security-audit` `mcp-builder` `config-generator` `dev-environment`
 
@@ -181,7 +189,7 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 │                                                  │
 │  hanako-skills-collection  ← 这个仓库             │
 │  ┌────────────────────┐                          │
-│  │ 37 个 skills        │  文本指令                │
+│  │ 39 个 skills        │  文本指令                │
 │  │ 教 Agent 怎么做事    │  独立安装 独立移除         │
 │  └────────────────────┘                          │
 │                                                  │
@@ -224,7 +232,7 @@ Copy-Item -Recurse .\skills\academic-suite $env:USERPROFILE\.hanako\skills\
 ## 设计原则
 
 - **触发条件明确** 每个 skill 的 `description` 都包含 `MANDATORY TRIGGERS`，确保在正确场景激活
-- **不重复** 37 个 skill 的触发条件经过审查，避免功能重叠导致的激活冲突
+- **不重复** 39 个 skill 的触发条件经过审查，避免功能重叠导致的激活冲突
 - **低耦合** 每个 skill 是独立目录，一个 SKILL.md 就是全部。复制即安装，删除即卸载
 - **实战验证** 全部在学术写作和日常开发中使用过，不是理论设计
 - **可组合** 复杂任务可以同时触发多个 skill，比如写论文时 `academic-suite` + `scientific-writing` + `journal-figures` 协同工作
