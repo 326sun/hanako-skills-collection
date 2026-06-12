@@ -9,7 +9,7 @@ description: "Format thesis/dissertation Word docs: normalize styles, captions, 
 - **Audit first, edit second.** Never make broad formatting changes before understanding the document's internal state.
 - **Styles are the single source of truth.** Reduce direct formatting; bring the document under style control.
 - Edit content only from user-provided facts. Never invent experimental data, system structure, or results.
-- Write in normal thesis voice, not AI-workflow voice. Forbidden: "根据已有工程", "根据现有代码", "通过分析用户提供的代码", or any wording that sounds like prompt notes.
+- Write in normal thesis voice, not AI-workflow voice. Forbidden: "based on existing code", "per the provided outline", "according to your requirements", or any wording that sounds like prompt notes.
 - **Verify page-level output** before claiming completion. Export to PDF and review every page.
 
 ## Workflow
