@@ -1,220 +1,47 @@
 ---
 name: apple-minimal-ui
-description: Apple 极简风格前端开发规范。当用户要求编写/美化前端界面（网页、组件、仪表板卡片），且审美方向为"极简""苹果风格""干净""留白""克制"时启用。严禁在论文配图、科研图表、学术写作或数据可视化任务中触发——这些场景应使用 Nature 期刊风格配色规范。
+description: Apple-style minimal UI design for web, components, dashboards. Triggers: clean UI, minimal design, apple style. Never for scientific figures or data charts.
 default-enabled: false
 ---
 
-# Apple 极简风格前端开发规范
+# Apple Minimal UI
 
-> 适用范围：网页界面、应用 UI 组件、仪表板、个人页面、工具面板。
-> 禁用范围：学术论文配图、科研数据图表、机制示意图、图形摘要——这些场景使用独立的高对比度科研配色规范。
+Convey maximum hierarchy with minimum visual elements. Every pixel must justify its existence.
 
----
+## Rules
 
-## 0. 前置判断：场景识别
+### Color
+- Base: Zinc or Stone. Single accent only, saturation ≤70%. No gradients for decoration.
+- Dark mode: bg `zinc-950`, cards `zinc-900`, hover `zinc-800`. Text contrast ≥4.5:1.
+- Accent pool: `#007AFF`, `#34C759`, `#FF6B35`, `#8B5CF6` (50% sat), or pure B&W.
 
-在动用任何规则之前，先判定当前任务是否属于本规范的管辖范围。
+### Typography
+- Priority: Satoshi+JetBrains Mono, Geist+Geist Mono, Cabinet Grotesk, SF Pro.
+- One family for hierarchy via weight variants. Never mix two families.
+- Headings: `font-semibold/bold`, `tracking-tighter`. Body: `leading-relaxed` 1.6–1.75, `max-w-[65ch]`.
 
-**属于本规范的场景：**
-- 网页前端开发（HTML/CSS/React/Vue/纯静态页面）
-- 桌面应用 GUI 组件（如 Pi 框架、Electron 窗口）
-- 工具面板、设置界面、后台管理页面
-- 个人主页、作品集页面
+### Spacing
+- Card padding min 24px, normal 32px, large 48px. Gaps: `gap-6`/`gap-8`, never `gap-4`.
+- CSS Grid. Default: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`.
+- Container: `max-w-7xl`. Hero: `min-h-[85dvh]`.
 
-**不属于本规范的场景（立即退出，使用其他规范）：**
-- 论文配图（折线图、散点图、机制图、应力云图等）
-- 科研数据可视化（matplotlib/seaborn/Origin 风格图表）
-- 学术海报、PPT 学术汇报
-- 任何以"发表""投稿""审稿"为目标的视觉产出
+### Motion
+- Serve only: direct attention, explain spatial relationships, confirm action results.
+- Duration 150–300ms, never over 400ms. Easing: `cubic-bezier(0.25,0.1,0.25,1.0)`.
+- Page entrance: `opacity 0→1` + `translateY(8px→0)`, stagger 50–80ms.
 
-**边界规则：** 如果同一个项目中同时出现前端界面和科研图表，前端界面遵守本规范，科研图表单独处理，两者互不污染。
+### Components
+- Buttons: solid accent, `rounded-xl`, `px-6 py-3`. Never glow.
+- Cards: bg one step lighter than page, border-over-shadow (`border-zinc-200/60`). Hover: `translateY(-2px)`.
+- Inputs: `rounded-xl`, border `zinc-300`, focus ring accent.
+- Icons: Phosphor or Heroicons, stroke-width 1.5. Never Lucide.
 
----
+### Borders/Shadows
+- Radius: page `rounded-3xl` → card `rounded-2xl` → button `rounded-xl` → badge `rounded-lg`.
+- Shadows: `shadow-sm` max. Never `shadow-lg`/`shadow-2xl`. Replace heavy shadows with borders.
 
-## 1. 苹果极简风格的核心定义
+## Constraints
 
-Apple 的设计语言不是一种"风格"，而是一套可执行的设计决策集。它的本质是：**用最少的视觉元素传递最多的层次信息**。不是"什么都没有"，而是"留下的每一个像素都有理由"。
+**Forbidden**: gradient glows, centered large titles on dark grids, three equal feature cards, glassmorphism, Inter default, infinite-loop animations, gradient text, >1 accent, serif defaults, Lucide icons, motion >500ms, `scale` >1.05.
 
-### 1.1 三大旋钮（固定预设，无需每次调整）
-
-| 参数 | 值 | 含义 |
-|---|---|---|
-| DESIGN_VARIANCE（设计偏差） | 5 | 1=完美对称，10=艺术混沌。苹果在对称中引入微妙的非对称（如标题左对齐但装饰元素偏右 3%） |
-| MOTION_INTENSITY（动效强度） | 3 | 1=静态，10=电影级物理。苹果的动效是"呼吸"而非"表演"：spring 曲线、淡入、微位移 |
-| VISUAL_DENSITY（视觉密度） | 2 | 1=画廊级留白，10=驾驶舱密集数据。每个视觉元素之间必须有足够的呼吸空间 |
-
-### 1.2 不要做的事（比"要做什么"更重要）
-
-以下行为在本规范中**默认禁止**：
-- 紫色/蓝色渐变按钮发光
-- 居中大标题配暗色网格背景
-- 三个等宽特性卡片横排
-- 全局毛玻璃效果滥用
-- Inter 字体作为默认选择
-- 无限循环的微动效
-- 渐变色文字
-- 超过一种强调色
-
----
-
-## 2. 配色
-
-### 2.1 基础原则
-- **中性色为主**：Zinc（`zinc-50` 到 `zinc-950`）或 Stone（`stone-50` 到 `stone-950`）作为基底
-- **单强调色**：恰好一种（不是"主要一种+辅助一种"），饱和度 ≤ 70%
-- **无渐变**：不用 `linear-gradient` 做装饰。渐变仅允许在以下场景出现：背景光晕（弥散、大面积、低不透明度）、图片上的遮罩过渡
-
-### 2.2 推荐强调色池
-从以下选一个，一个项目只用一个：
-- `#007AFF` Apple Blue（但只在明确需要"像苹果"时用）
-- `#34C759` 翠绿
-- `#FF6B35` 暖橙（比其他橙色更克制）
-- `#8B5CF6` 紫罗兰（仅 50% 饱和度使用）
-- 纯黑白：强调色 = 黑色本身，用字重区分层次
-
-### 2.3 暗色模式
-- 背景不是纯黑（`#000`），而是 `zinc-950` 或 `stone-950`
-- 卡片背景 `zinc-900`，hover 时 `zinc-800`
-- 文字对比度保持 4.5:1 以上（WCAG AA）
-
----
-
-## 3. 排版
-
-### 3.1 字体选择（优先级递减）
-1. **Satoshi** + **JetBrains Mono**（代码块）——首推组合
-2. **Geist** + **Geist Mono**——Vercel 出品，Apple 气质最接近
-3. **Cabinet Grotesk** + **Inter Tight**——更有个性但不张扬
-4. **SF Pro** 系（系统原生，仅 Apple 平台可用）
-
-**禁止默认字体：** Inter（太通用）、Roboto（Material 味太重）、Poppins（已经审美疲劳）
-
-### 3.2 字重与层级
-- 标题：`font-bold` 或 `font-semibold`，`tracking-tighter`（-0.02em），`leading-tight`
-- 正文：`font-normal`，`leading-relaxed`（1.6-1.75），最大宽度 `65ch`
-- 辅助文字/标签：`text-sm`，`tracking-wide`（0.02em），`uppercase` 可选
-- **只用一种字体族的粗体/细体来切换层级**，不混用两种字体族做层级区分
-
-### 3.3 禁止
-- 衬线体作为默认字体（包括 Fraunces、Instrument Serif）
-- 在无衬线标题中混入衬线单词做"强调"
-- 斜体字中降部（y g j p q）被 `leading-none` 裁剪
-
----
-
-## 4. 间距与布局
-
-### 4.1 留白
-- 苹果的留白是**慷慨但不浪费**的。一个区块的上下留白应至少等于区块内容高度的 0.5 倍
-- 卡片内边距：最小 `p-6`（24px），常规 `p-8`（32px），大型 `p-12`（48px）
-- 元素间距：同级元素之间用 `gap-6` 或 `gap-8`，不用 `gap-4`（太挤）
-
-### 4.2 网格
-- 始终用 CSS Grid，不用复杂的 flexbox 百分比计算
-- `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` 作为默认响应式模式
-- Bento 网格（苹果风格的不规则卡片排列）：允许使用 `grid` + `col-span` + `row-span` 创建不对称布局，但必须保证整体视觉平衡
-
-### 4.3 容器
-- 最大宽度 `max-w-7xl`（1280px）或 `max-w-[1200px]`
-- Hero 区高度：`min-h-[85dvh]`（不是 `h-screen`），避免 iOS Safari 地址栏导致布局跳动
-
----
-
-## 5. 圆角与阴影
-
-### 5.1 圆角
-苹果的圆角是有层级的，反映元素之间的包含关系：
-- 页面级容器：`rounded-3xl`（24px）
-- 卡片：`rounded-2xl`（16px）
-- 按钮/输入框：`rounded-xl`（12px）
-- 小型标签/徽章：`rounded-lg`（8px）
-- **连续圆角**（`apple-radius` 或 CSS `--radius: 0.75rem`）优先于标准圆角
-
-### 5.2 阴影
-苹果的阴影是"氛围"而非"投影"：
-- 卡片悬浮：`shadow-sm` 或手动 `0 2px 8px rgba(0,0,0,0.06)` 级别
-- 不要用 `shadow-lg` 或 `shadow-2xl`（那是 Google Material 的语言）
-- 暗色模式下阴影减弱：`shadow-black/20` 替代默认阴影色
-- 边框替代阴影：卡片用 `border border-zinc-200/60`（浅色）或 `border-zinc-800/60`（深色）代替厚重阴影
-
----
-
-## 6. 动效
-
-### 6.1 苹果动效语言
-"它动了，但你没注意到它动了。" 所有动效应服务于以下三个目的之一：**引导注意力**、**解释空间关系**、**确认操作结果**。其他动机的动效一律删除。
-
-### 6.2 具体参数
-- 默认缓动：`cubic-bezier(0.25, 0.1, 0.25, 1.0)`（CSS ease，接近 Apple 的默认曲线）
-- Spring 动画（Motion/Framer Motion 中）：`type: "spring", stiffness: 300, damping: 30`
-- 持续时间：150-300ms，不超过 400ms
-- 页面入场：`opacity 0 → 1` + `translateY(8px → 0)`，duration 400ms，stagger 子元素各 50-80ms
-
-### 6.3 禁止
-- 无限循环动画（loading spinner 除外）
-- 超过 500ms 的过渡动画
-- `transform: scale` 超过 1.05（苹果从不做夸张的缩放）
-- 页面切换时的全屏滑动（那是 iOS 原生手势，Web 上做不自然）
-
----
-
-## 7. 组件级规则
-
-### 7.1 按钮
-- 主按钮：实心背景（强调色），白色文字，`rounded-xl`，`px-6 py-3`
-- 次按钮：透明背景 + 边框（`border-zinc-300`），文字同色
-- 幽灵按钮：无边框无背景，仅文字 + hover 时微弱背景（`hover:bg-zinc-100`）
-- **按钮不发光**——无 `box-shadow` 彩色光晕，无 `glow` 类
-
-### 7.2 卡片
-- 背景比页面背景略亮一层（浅色模式下 `bg-white` 卡片在 `bg-zinc-50` 页面中）
-- 内边距 ≥ 24px
-- 边框优先于阴影（`border border-zinc-200/60`）
-- Hover 时微升（`translateY(-2px)`，duration 200ms）或边框颜色变化
-
-### 7.3 输入框
-- `rounded-xl`，`border-zinc-300`，focus 时 `border-{accent}` + `ring-1 ring-{accent}/30`
-- Placeholder 文字颜色 `zinc-400`，不是默认的灰色
-
-### 7.4 图标
-- 推荐库（优先级）：Phosphor Icons、SF Symbols（Apple 平台）、Heroicons
-- 禁止：Lucide Icons（过于圆润，不是苹果的调性）
-- 统一描边宽度：`strokeWidth: 1.5`
-- 不混用不同图标库
-
----
-
-## 8. 代码实现约定
-
-- **框架**：React/Next.js 或纯 HTML/CSS。用 Pi 框架时遵守其组件模型
-- **样式方案**：Tailwind CSS（如果有的话）或原生 CSS。不用 CSS-in-JS（违背组件与样式分离原则）
-- **字体加载**：`next/font`（Next.js）或 `@font-face` + `font-display: swap`（非 Next.js）。禁止通过 `<link>` 标签加载 Google Fonts
-- **动效库**：Motion（Framer Motion 的继任者），`import { motion } from "motion/react"`
-- **导入前检查**：引用第三方库前先确认 `package.json` 中已安装；未安装则先给出安装命令
-
----
-
-## 9. 质量自检（交付前执行）
-
-在声称"完成了"之前，逐条过：
-
-1. 是否用了超过一种强调色？→ 砍到一种
-2. 是否有紫色/蓝色渐变发光？→ 删除
-3. 是否用了 Inter 作为默认字体？→ 替换为 Satoshi 或 Geist
-4. 阴影是否太重？→ 减轻或替换为边框
-5. 动效是否超过 400ms？→ 缩短
-6. 卡片间距是否小于 24px？→ 加大
-7. 是否有无限循环动画？→ 删除
-8. 暗色模式背景是否是纯黑？→ 改为 zinc-950
-9. 圆角是否统一？→ 按层级规则检查
-10. 是否使用了 Lucide 图标？→ 替换
-
----
-
-## 10. 与科研配图的边界
-
-重申：本规范**不适用于**研究和论文产出的图表。
-
-科研配图应使用另一套独立规则：Nature 期刊风格、600 dpi、高对比度配色（避免相近色调难以区分）、粗线条、无装饰性元素。两种审美体系不可混合——不要在前端界面中使用科研配色，也不要在论文图表中使用苹果风格的留白和低对比度。
-
-如果任务同时涉及前端和科研图表，在生成代码时分别为两者应用各自的规范，并在输出中明确标注哪部分使用了哪套规则。
+**Quality checklist**: 1 accent? No gradient glows? Not Inter? Light shadows? Motion ≤400ms? Card padding ≥24px? No infinite loops? Dark bg = zinc-950? Consistent radii? No Lucide?

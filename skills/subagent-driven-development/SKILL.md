@@ -1,190 +1,64 @@
 ---
 name: subagent-driven-development
-description: "子 Agent 驱动开发：按计划逐个派发子 Agent 执行任务，每任务两阶段审查（规格合规 + 代码质量）。Subagent-driven development with two-stage review per task. Triggers: execute plan, implement tasks from plan, subagent development, 按计划执行, 子agent开发, 分发任务, dispatch tasks. Use when you have an implementation plan with independent tasks."
+description: Dispatch per-plan-task subagents with mandatory two-stage review (spec compliance then code quality). Triggers: execute plan, implement tasks, subagent dev, 按计划执行, 子agent开发, 分发任务. Requires approved plan.
 ---
 
-# 子 Agent 驱动开发
+# Subagent-Driven Development
 
-将实现计划中的每个任务派发给独立的子 Agent，每完成一个任务执行两阶段审查：先对规格，再对质量。只有规格合规且质量通过，才标记任务完成并进入下一个。
+Execute each plan task via a clean subagent. Mandatory two-stage review after every task: spec compliance first, then code quality. Only mark complete when both pass.
 
-**核心理念**：干净子 Agent（隔离上下文）+ 两阶段审查 = 高质量快速迭代。
+## Rules
 
-## 什么时候用
+**When to use** (all three required):
+- Approved implementation plan exists (tasks decomposed, independent)
+- Tasks are loosely coupled
+- No session/environment switch needed
 
-满足以下条件时启用本流程：
+Not for: tightly coupled tasks, unclear plans, decisions between every task.
 
-1. 已有明确的实现计划（任务已拆分为独立单元）
-2. 任务之间耦合度低，可独立执行
-3. 在当前会话中连续推进，不需要切换到其他环境
+**Model selection:**
+- Mechanical (single file, clear spec) → fast/cheap model
+- Integration (multi-file, cross-module) → standard model
+- Architecture/Review (design judgment) → strongest model
 
-**不适用**：任务强耦合（A 的结果直接影响 B 的中间步骤）、计划本身不清晰、需要人工在每个任务间决策。
+**Implementer status handling:**
+- DONE → proceed to spec review
+- DONE_WITH_CONCERNS → address correctness issues first, record observations, proceed
+- NEEDS_CONTEXT → supply context, re-dispatch
+- BLOCKED → supply context, upgrade model, decompose, or escalate. Never retry unchanged.
 
-## 整体流程
-
-```
-Phase 0：准备
-  读取计划文件 → 提取所有任务完整文本 → 创建 TodoWrite
-  ↓
-Phase 1-N：每个任务循环
-  派发实现子 Agent → 等待完成
-    → 子 Agent 有问题？回答后重新派发
-    → 子 Agent 报告 DONE？
-      → Stage 1：派发规格审查子 Agent
-        → ❌ 不合规 → 实现子 Agent 修复 → 重新审查
-        → ✅ 合规 → Stage 2
-      → Stage 2：派发代码质量审查子 Agent
-        → ❌ 不通过 → 实现子 Agent 修复 → 重新审查
-        → ✅ 通过 → 标记任务完成
-  ↓
-全部完成后
-  派发最终整体审查 → 完成
-```
-
-**连续执行**：不要在任务之间停下来问"要继续吗"。计划已经批准了，执行即可。只有在遇到 BLOCKED 状态无法自行解决、遇到模糊性真正阻碍进展、或全部任务完成时才停下。
-
-## 模型选择
-
-按任务复杂度选择子 Agent 模型，节省开销：
-
-- **机械实现**（单文件、明确规格、无设计判断）→ 快速/便宜模型
-- **集成协调**（多文件、跨模块、需要模式匹配）→ 标准模型
-- **架构/审查**（设计判断、全局视角）→ 最强模型
-
-复杂度信号：
-- 1-2 个文件 + 完整规格 → 便宜模型
-- 多文件 + 集成关注 → 标准模型
-- 需要设计判断或全局理解 → 最强模型
-
-## 子 Agent 状态处理
-
-实现子 Agent 返回四种状态之一：
-
-**DONE**：进入规格合规审查。
-
-**DONE_WITH_CONCERNS**：完成但有疑虑。先读具体 concerns。如果关于正确性或范围，先处理再审查。如果只是观察性备注（如"这个文件越来越大了"），记录下来再进入审查。
-
-**NEEDS_CONTEXT**：缺少信息。提供缺失的上下文后重新派发。
-
-**BLOCKED**：无法完成。分四种情况：
-1. 缺少上下文 → 补充后重新派发（同模型）
-2. 需要更强推理 → 升级模型后重新派发
-3. 任务太大 → 拆分成更小任务
-4. 计划本身有问题 → 升级给用户
-
-不要忽略升级信号，不要让同一个模型无变化地重试。
-
-## 实现子 Agent 派发模板
-
-派发时使用以下结构构造 prompt（详见 `implementer-prompt.md`）：
+## Workflow
 
 ```
-你是 Task N 的实现者。
-
-## 任务描述
-[从计划中粘贴完整任务文本，不要让子 Agent 自己去读文件]
-
-## 背景上下文
-[这个任务在整体中的位置、依赖关系、架构上下文]
-
-## 开始前
-如果有疑问——关于需求、方案、依赖、任何不清楚的地方——现在提出来。
-
-## 你的工作
-1. 严格按规格实现
-2. 写测试（TDD 如果计划要求）
-3. 验证实现正确
-4. 提交
-5. 自审查（见下）
-6. 报告
-
-## 自审查清单
-- 完整性：所有需求都实现了？边缘情况处理了？
-- 质量：命名准确？代码干净可维护？
-- 纪律：是否过度构建（YAGNI）？是否遵循现有模式？
-- 测试：测试验证的是行为而非 mock 行为？
-
-## 报告格式
-- Status: DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT
-- 实现了什么
-- 测试结果
-- 变更文件
-- 自审查发现
-- 任何疑虑
+Phase 0: Extract all task text → create TodoWrite
+Phase 1-N (per task):
+  Dispatch implementer (see implementer-prompt.md)
+    → NEEDS_CONTEXT: supply context, re-dispatch
+    → BLOCKED: supplement/upgrade/decompose/escalate
+    → DONE_WITH_CONCERNS: address correctness issues, record observations, proceed
+    → DONE:
+      Stage 1: Spec compliance review (spec-reviewer-prompt.md)
+        → Issues: same implementer fixes, same reviewer re-reviews → repeat
+      Stage 2: Code quality review (code-quality-reviewer-prompt.md)
+        → Issues: same loop until approved → mark complete
+After all tasks: final overall review
 ```
 
-## 规格审查子 Agent 派发模板
+Don't pause between tasks. Execute continuously. Stop only for genuine BLOCKED without self-resolution.
 
-仅当实现子 Agent 报告 DONE 后派发。详见 `spec-reviewer-prompt.md`：
+## Constraints
 
-```
-你是 Task N 的规格合规审查者。
+- Never skip a review stage
+- Never accept "close enough" on spec compliance
+- Never run code quality review before spec compliance
+- Never dispatch parallel implementers (will conflict)
+- Never make subagents read the plan file (provide full text)
+- Never retry unchanged on BLOCKED
+- Never move to next task with open review issues
+- Review loops: same implementer fixes, same reviewer re-reviews
 
-核心理念：实现者可能乐观或遗漏。不要相信他们的报告，亲自读代码。
+## References
 
-## 检查清单
-- 缺失：有没有需求被跳过或漏掉？
-- 多余：有没有构建了未要求的东西？过度设计？
-- 误解：有没有对需求的理解偏差？
-
-## 输出
-- ✅ Spec compliant
-- ❌ Issues: [具体列出，附文件:行号]
-```
-
-**关键规则**：规格不合规 = 没完成。不要让"差不多"通过。
-
-## 代码质量审查子 Agent 派发模板
-
-仅在规格审查 ✅ 通过后派发。详见 `code-quality-reviewer-prompt.md`：
-
-使用现有的 `code-reviewer` skill 的标准审查维度，额外关注：
-- 每个文件是否有单一清晰职责
-- 实现是否遵循计划中的文件结构
-- 新增代码是否显著增大了已有文件
-- 命名是否清晰准确
-
-## 红线
-
-**绝对不能**：
-- 跳过审查（不管是规格还是质量）
-- 带着未修复问题前进
-- 并行派发多个实现子 Agent（会冲突）
-- 让子 Agent 自己去读计划文件（你把完整文本给它）
-- 跳过上下文铺垫（子 Agent 需要知道任务在整个计划中的位置）
-- 忽略子 Agent 的问题（回答完再让它继续）
-- 规格审查发现问题的"差不多就行"
-- 跳过审查循环（审查 → 修复 → 再审查，直到通过）
-- 用实现者自审查替代正式审查
-- **先做代码质量审查再做规格审查**（顺序不能错）
-- 在审查仍有未解决问题时就进入下一个任务
-
-**审查发现问题时**：
-- 同一个实现子 Agent 修复
-- 同一个审查子 Agent 重新审查
-- 重复直到通过
-
-## 与现有 Skills 的协作
-
-- `quiet-musing`：在进入本流程前，用安静思考做计划
-- `code-reviewer`：代码质量审查阶段的审查标准
-- `test-generator`：实现阶段生成测试用例
-- `git-workflow`：提交规范和分支管理
-
-## 效率优势
-
-对比手动执行：
-- 子 Agent 天然遵循 TDD
-- 每次派发都是干净的上下文（不会混淆）
-- 子 Agent 可在开始前和工作中提问
-- 控制器不需要读文件（提供完整文本）
-
-对比并行会话执行：
-- 同一会话内完成（无需切换）
-- 连续推进（无需等待人工反馈）
-- 审查自动触发
-
-成本考量：
-- 每个任务 3 次子 Agent 调用（实现 + 2 次审查）
-- 控制器需要更多准备（提前提取所有任务）
-- 审查循环可能增加迭代次数
-- 但早期发现问题比调试后期问题便宜得多
+- `implementer-prompt.md` — dispatch template, self-review checklist, report format
+- `spec-reviewer-prompt.md` — compliance checklist (missing/extra/misunderstanding, file:line)
+- `code-quality-reviewer-prompt.md` — quality dimensions (responsibility, structure, bloat, naming)

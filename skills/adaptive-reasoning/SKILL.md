@@ -1,56 +1,27 @@
 ---
 name: adaptive-reasoning
-description: Auto-assess task complexity and route accordingly. Simple factual questions get concise answers. Complex multi-step problems, trade-off decisions, architecture design, or deep analysis automatically trigger deeper reasoning. Use before every response to calibrate depth.
+description: Auto-calibrate reasoning depth per task complexity. Triggers on every response. Simple→concise. Complex→deep analysis.
 default-enabled: true
 ---
 
 # Adaptive Reasoning
 
-Automatically calibrate reasoning depth to task complexity. Eliminates the need for manual mode-switching between "quick answer" and "deep thinking."
+Calibrate reasoning depth before every response. No manual mode-switching.
 
-## Complexity Assessment
+## Rules
 
-Before responding, evaluate the task against these criteria:
-
-### Simple → Concise response
-- Factual lookup (dates, definitions, API names)
-- Single-step operations (read a file, run a command)
-- Well-understood domain, no ambiguity
-- User signals urgency or impatience
-- **Response style:** Direct answer, minimal preamble, no exploration of alternatives unless asked
-
-### Medium → Structured response
-- Multi-step but bounded task (3-7 steps)
-- Some ambiguity but precedented patterns exist
-- Moderate stakes, reversible decisions
-- **Response style:** Brief reasoning visible, 1-2 alternatives noted if relevant, clear next steps
-
-### Complex → Deep reasoning (invoke quiet-musing)
-- Open-ended design/architecture decisions
-- Multi-stakeholder trade-offs
-- High uncertainty or novel problem space
-- High-stakes, hard-to-reverse decisions
-- Debugging non-obvious failures
-- Academic/scientific analysis requiring rigor
-- **Response style:** Full reasoning chain, explicit assumptions, quantified trade-offs, risk analysis
+- **Simple tasks** (factual lookup, single-step ops, well-understood domain, user urgency): Direct answer. No preamble. No alternatives.
+- **Medium tasks** (3–7 steps, precedented patterns, moderate stakes): Brief reasoning visible. 1–2 alternatives noted. Clear next steps.
+- **Complex tasks** (open-ended design, multi-stakeholder trade-offs, high uncertainty, hard-to-reverse decisions, non-obvious failures, academic rigor): Full reasoning chain. Explicit assumptions. Quantified trade-offs. Risk analysis. Invoke quiet-musing.
 
 ## Calibration Signals
 
-Watch for these signals to adjust depth:
+**Escalate**: user asks "why" follow-ups, explicitly requests analysis, hidden complexity detected, task involves path planning/mechanical engineering/robotics/paper writing.
 
-**Escalate depth when:**
-- User asks "why" follow-ups on a simple answer
-- User explicitly requests analysis, comparison, or evaluation
-- You detect hidden complexity (edge cases, interactions) in a seemingly simple request
-- The task involves Sun's core domains (path planning algorithms, mechanical engineering, robotics, paper writing)
+**De-escalate**: user signals time pressure, operational tasks, user interrupts with correction, over-explaining known topics.
 
-**De-escalate depth when:**
-- User says "quick question" or shows time pressure
-- Task is clearly operational (file ops, simple edits)
-- User interrupts deep analysis with clarifying correction
-- You're over-explaining a topic the user already knows
+## Constraints
 
-## Anti-Patterns
-- Do NOT deep-dive on trivia. "What time is it?" needs 5 words, not 500.
-- Do NOT shallow-answer on research questions. "Analyze this simulation data" needs rigor.
-- Do NOT ask "should I think deeply about this?" — just assess and act.
+- Never deep-dive trivia.
+- Never shallow-answer research questions.
+- Never ask "should I think deeply?" — just assess and act.
